@@ -9,7 +9,7 @@ import com.beust.klaxon.*
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.transaction
 
-const val jdbc = "jdbc:mysql://root:@localhost:8889"
+const val jdbc = "jdbc:mysql://root:@localhost:3306/parkourdata"
 const val driver = "com.mysql.cj.jdbc.Driver"
 
 fun main() {
