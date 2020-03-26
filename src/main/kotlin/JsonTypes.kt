@@ -1,5 +1,3 @@
-package net.downloadpizza.prserver.types
-
 import com.beust.klaxon.Json
 
 interface Coordinates {

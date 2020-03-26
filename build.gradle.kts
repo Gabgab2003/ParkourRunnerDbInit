@@ -3,7 +3,7 @@ plugins {
     application
 }
 
-group = "org.example"
+group = "net.downloadpizza"
 version = "1.0-SNAPSHOT"
 
 repositories {
