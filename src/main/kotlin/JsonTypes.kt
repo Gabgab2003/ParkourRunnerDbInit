@@ -24,7 +24,7 @@ data class ParkProperties(
     @Json(name="OBJECTID")
     val objectId: Int,
     @Json(name="ANL_NAME")
-    val institutionName: String?,
+    val institutionName: String,
     @Json(name="BEZIRK")
     val district: Int?,
     @Json(name="FLAECHE")
