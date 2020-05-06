@@ -4,7 +4,12 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IdTable
 import com.beust.klaxon.JsonParsingException
 import com.beust.klaxon.*
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.`java-time`.timestamp
 import org.jetbrains.exposed.sql.transactions.transaction
 
 const val jdbc = "jdbc:mysql://root:@localhost:3306/parkourdata"
@@ -27,6 +32,7 @@ fun main() {
     val nameMap = emptyMap<String, Int>().toMutableMap()
 
     transaction(database) {
+        SchemaUtils.create(Parks, Logs, Users)
         parks.forEach {
             var name = it.properties.institutionName
             val num = nameMap[name]
@@ -53,6 +59,18 @@ object Parks : IdTable<String>("p_parks") {
     val name = varchar("p_name", 60)
     val longitude = double("p_longitude")
     val latitude = double("p_latitude")
+}
+
+object Logs : IntIdTable("l_logs", "l_id") {
+    val user = reference("l_u_user", Users.id)
+    val park = reference("l_p_park", Parks.id)
+    val time = timestamp("l_timestamp")
+}
+
+object Users : IdTable<String>("u_users") {
+    override val id = varchar("u_id", 24).entityId()
+    val pwhash = binary("u_pwhash", 32)
+    val points = long("u_points")
 }
 
 class Park(id: EntityID<String>) : Entity<String>(id) {
