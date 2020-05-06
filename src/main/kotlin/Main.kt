@@ -32,7 +32,6 @@ fun main() {
     val nameMap = emptyMap<String, Int>().toMutableMap()
 
     transaction(database) {
-        SchemaUtils.create(Parks, Logs, Users)
         parks.forEach {
             var name = it.properties.institutionName
             val num = nameMap[name]
@@ -61,16 +60,16 @@ object Parks : IdTable<String>("p_parks") {
     val latitude = double("p_latitude")
 }
 
-object Logs : IntIdTable("l_logs", "l_id") {
-    val user = reference("l_u_user", Users.id)
-    val park = reference("l_p_park", Parks.id)
-    val time = timestamp("l_timestamp")
-}
-
 object Users : IdTable<String>("u_users") {
     override val id = varchar("u_id", 24).entityId()
     val pwhash = binary("u_pwhash", 32)
     val points = long("u_points")
+}
+
+object Logs : IntIdTable("l_logs", "l_id") {
+    val user = reference("l_u_user", Users.id)
+    val park = reference("l_p_park", Parks.id)
+    val time = timestamp("l_timestamp")
 }
 
 class Park(id: EntityID<String>) : Entity<String>(id) {
